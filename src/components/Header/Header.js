@@ -18,7 +18,7 @@ const Header = () => {
                                 alt="React Bootstrap logo"
                                 className="d-lg-none"
                             /> */}
-                            <span className='brand-name d-lg-none' >CÔNG TY CỔ PHẦN ĐẦU TƯ ĐIỆN LỰC 3</span>
+                            <span className='brand-name d-lg-none'>CÔNG TY CỔ PHẦN ĐẦU TƯ ĐIỆN LỰC 3</span>
                         </Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">

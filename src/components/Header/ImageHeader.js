@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Col, Container, Image, Row } from "react-bootstrap";
 import logo from '../../assets/images/logo.png'
 const ImageHeader = () => {

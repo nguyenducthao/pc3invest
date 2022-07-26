@@ -1,4 +1,5 @@
 import { Route, Switch } from "react-router-dom"
+import Home from "../components/Home/Home"
 import NhanSu from "../components/NhanSu/NhanSu"
 
 const AppRoutes = (props) => {
@@ -9,7 +10,7 @@ const AppRoutes = (props) => {
                     <NhanSu />
                 </Route>
                 <Route path="/" exact>
-                    home
+                    <Home />
                 </Route>
                 <Route path="*">
                     404 not found
