@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap"
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect, useHistory } from "react-router-dom";
+import { login } from "../../redux/actions/userAction";
 
-const Login = () => {
+const Login = (props) => {
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
+    const [loading, setLoading] = useState(false);
+    const { isLoggedIn } = useSelector(state => state.userReducer);
+    const dispatch = useDispatch();
+
     const setField = (field, value) => {
         setForm({
             ...form,
@@ -34,13 +41,23 @@ const Login = () => {
             // No errors! Put any logic here for the form submission!
             // alert('Thank you for your feedback!')
             const { tenDangNhap, matKhau } = form
-            console.log('ten dang nhap: ', tenDangNhap)
-            console.log('mat khau: ', matKhau)
+            setLoading(true);
+            dispatch(login(tenDangNhap, matKhau))
+                .then(() => {
+                    props.history.push("/");
+                    window.location.reload();
+                })
+                .catch(() => {
+                    setLoading(false);
+                });
         }
     }
+    if (isLoggedIn) {
+        return <Redirect to="/" />;
+    }
+
     return (
         <>
-
             <Row>
                 <Col md={3} lg={4}></Col>
                 <Col md={6} lg={4}>
@@ -72,7 +89,7 @@ const Login = () => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group className="mb-3 d-grid gap-2">
-                                    <Button variant="success" type="submit">Đăng nhập</Button>
+                                    <Button variant="success" type="submit" disabled={loading}>Đăng nhập</Button>
                                 </Form.Group>
                             </Form>
                         </Card.Body>

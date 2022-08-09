@@ -1,9 +1,24 @@
-// import logo from '../../assets/images/logo.png'
-import { Container, Nav, Navbar } from "react-bootstrap"
-import { NavLink } from "react-router-dom"
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap"
+import { Link, NavLink, useHistory } from "react-router-dom"
 import './Header.scss'
+import { logout } from "../../redux/actions/userAction"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
-const Header = () => {
+const Header = (props) => {
+    const [showAdminBoard, setShowAdminBoard] = useState(false);
+    const { user: currentUser } = useSelector((state) => state.userReducer);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (currentUser) {
+            setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
+        } else {
+            setShowAdminBoard(false)
+        }
+    }, [currentUser]);
+    const logOut = () => {
+        dispatch(logout(currentUser.id))
+    };
     return (
         <>
             <div className='nav-header sticky-navigation'>
@@ -25,32 +40,35 @@ const Header = () => {
                             <Nav className="me-auto">
                                 <NavLink exact to="/" className='nav-link'>Trang chủ</NavLink>
                                 <NavLink exact to="/nhansu" className='nav-link'>Nhân sự</NavLink>
+                                {showAdminBoard &&
+                                    <NavLink exact to="/admin" className='nav-link'>Admin board</NavLink>
+                                }
                                 {/* <NavLink to="/roles" className='nav-link'>Roles</NavLink>
                                 <NavLink to="/group-role" className='nav-link'>Group-Role</NavLink>
                                 <NavLink to="/projects" className='nav-link'>Projects</NavLink>
                                 <NavLink to="/about" className='nav-link'>About</NavLink> */}
                             </Nav>
-                            {/* <Nav>
-                                {user && user.isAuthenticated
+                            <Nav>
+                                {currentUser
                                     ?
                                     <>
                                         <Nav.Item className='nav-link'>
-                                            Welcome {user.account.username}!
+                                            Xin chào {currentUser.username}!
                                         </Nav.Item>
-                                        <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                            <NavDropdown.Item>Change Password</NavDropdown.Item>
+                                        <NavDropdown title="Cài đặt" id="basic-nav-dropdown">
+                                            <NavDropdown.Item>Đổi mật khẩu</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item>
-                                                <span onClick={() => handleLogOut()}>Log out</span>
+                                                <span onClick={() => logOut()}>Đăng xuất</span>
                                             </NavDropdown.Item>
                                         </NavDropdown>
                                     </>
                                     :
-                                    <Link className='nav-link' to='/login'>
-                                        Login
+                                    <Link className='nav-link' to='/dang-nhap'>
+                                        Đăng nhập
                                     </Link>
                                 }
-                            </Nav> */}
+                            </Nav>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>

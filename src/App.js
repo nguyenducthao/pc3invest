@@ -4,14 +4,16 @@ import './App.scss';
 import Header from './components/Header/Header'
 import ImageHeader from './components/Header/ImageHeader'
 import AppRoutes from './routes/AppRoutes';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { history } from "./helpers/history";
 
 function App() {
   return (
     <>
-      <Router>
+      <Router history={history}>
+        {/* <Router> */}
         <div className='container'>
           <br />
           <ImageHeader />
