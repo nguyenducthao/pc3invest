@@ -9,6 +9,7 @@ const Header = (props) => {
     const [showAdminBoard, setShowAdminBoard] = useState(false);
     const { user: currentUser } = useSelector((state) => state.userReducer);
     const dispatch = useDispatch();
+    let history = useHistory()
     useEffect(() => {
         if (currentUser) {
             setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
@@ -17,7 +18,9 @@ const Header = (props) => {
         }
     }, [currentUser]);
     const logOut = () => {
+        history.push('/')
         dispatch(logout(currentUser.id))
+        // props.history.push('/')
     };
     return (
         <>

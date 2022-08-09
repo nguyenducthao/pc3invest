@@ -10,7 +10,7 @@ const Login = (props) => {
     const [loading, setLoading] = useState(false);
     const { isLoggedIn } = useSelector(state => state.userReducer);
     const dispatch = useDispatch();
-
+    let history = useHistory()
     const setField = (field, value) => {
         setForm({
             ...form,
@@ -44,8 +44,9 @@ const Login = (props) => {
             setLoading(true);
             dispatch(login(tenDangNhap, matKhau))
                 .then(() => {
-                    props.history.push("/");
-                    window.location.reload();
+                    history.push('/')
+                    // props.history.push("/");
+                    // window.location.reload();
                 })
                 .catch(() => {
                     setLoading(false);
