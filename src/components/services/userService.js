@@ -1,7 +1,9 @@
 // import axios from '../setup/axios'
-import axios from 'axios'
-import authHeader from './auth-header';
-const API_URL = "http://localhost:9997/api/auth/";
+// import axios from 'axios'
+import api from './api'
+import TokenService from './tokenService'
+// import authHeader from './auth-header';
+// const API_URL = "http://localhost:9997/api/auth/";
 // const register = (username, email, password) => {
 //     return axios.post(API_URL + "signup", {
 //         username,
@@ -9,28 +11,50 @@ const API_URL = "http://localhost:9997/api/auth/";
 //         password,
 //     });
 // };
+// const login = async (username, password) => {
+//     const response = await axios
+//         // .post("/api/auth/signin", {
+//         .post(API_URL + "signin", {
+//             username,
+//             password,
+//         });
+//     if (response.data.accessToken) {
+//         localStorage.setItem("user", JSON.stringify(response.data));
+//     }
+//     return response.data;
+// };
 const login = async (username, password) => {
-    const response = await axios
-        // .post("/api/auth/signin", {
-        .post(API_URL + "signin", {
+    const response = await api
+        .post("/auth/signin", {
             username,
-            password,
+            password
         });
     if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        TokenService.setUser(response.data);
     }
     return response.data;
 };
+// const logout = async (userId) => {
+//     localStorage.removeItem("user");
+//     const response = await axios
+//         // .post("/api/auth/signin", {
+//         .post(API_URL + "logout", {
+//             userId
+//         });
+
+//     // if (response.data.accessToken) {
+//     //     localStorage.setItem("user", JSON.stringify(response.data));
+//     // }
+//     return response.data;
+// };
 const logout = async (userId) => {
-    localStorage.removeItem("user");
-    const response = await axios
-        // .post("/api/auth/signin", {
-        .post(API_URL + "logout", {
+    TokenService.removeUser();
+    const response = await api
+        .post("/auth/logout", {
             userId
         });
-
     // if (response.data.accessToken) {
-    //     localStorage.setItem("user", JSON.stringify(response.data));
+    //     TokenService.setUser(response.data);
     // }
     return response.data;
 };
@@ -38,20 +62,36 @@ const logout = async (userId) => {
 //     localStorage.removeItem("user");
 
 // };
+const getCurrentUser = () => {
+    return JSON.parse(localStorage.getItem("user"));
+};
 const getPublicContent = () => {
-    return axios.get(API_URL + "/api/test/all");
+    // return axios.get(API_URL + "/api/test/all");
+    return api.get("/test/all");
 };
 const getUserBoard = () => {
-    return axios.get("/api/test/user", { headers: authHeader() });
+    // return axios.get("/api/test/user", { headers: authHeader() });
+    return api.get("/test/user");
 };
 const getAdminBoard = () => {
-    return axios.get("http://localhost:9997/api/test/admin", { headers: authHeader() });
+    // return axios.get("http://localhost:9997/api/test/admin", { headers: authHeader() });
+    return api.get("/test/admin");
 };
-export default {
+// export default {
+//     // register,
+//     login,
+//     logout,
+//     getPublicContent,
+//     getUserBoard,
+//     getAdminBoard,
+// };
+const UserService = {
     // register,
     login,
     logout,
+    getCurrentUser,
     getPublicContent,
     getUserBoard,
     getAdminBoard,
 };
+export default UserService;

@@ -5,6 +5,7 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     SET_MESSAGE,
+    REFRESH_TOKEN
 } from "./types";
 import UserService from "../../components/services/userService";
 import { toast } from "react-toastify";
@@ -128,3 +129,9 @@ export const logout = (userId) => (dispatch) => {
 //         type: LOGOUT,
 //     });
 // };
+export const refreshToken = (accessToken) => (dispatch) => {
+    dispatch({
+        type: REFRESH_TOKEN,
+        payload: accessToken,
+    })
+}
